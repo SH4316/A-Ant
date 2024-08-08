@@ -1,6 +1,6 @@
 package com.sh4316.aant.repository;
 
-import com.sh4316.aant.vo.UserDTO;
+import com.sh4316.aant.vo.dto.UserDTO;
 import com.sh4316.aant.repository.database.SQLConnection;
 import com.sh4316.aant.repository.database.SQLManager;
 import com.sh4316.aant.utils.Encoding;
@@ -35,6 +35,7 @@ public class UserRepositoryImpl implements UserRepository {
 					"password VARCHAR(45) NOT NULL," +
 					"user_type INT NOT NULL," +
 					"FOREIGN KEY (user_type) REFERENCES UserType (id));");
+
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS UserType (" +
 					"id INT AUTO_INCREMENT PRIMARY KEY," +
 					"name VARCHAR(45) NOT NULL" +
@@ -68,7 +69,7 @@ public class UserRepositoryImpl implements UserRepository {
 
 		try {
 			stat.execute("USE aant;");
-			ResultSet result = stat.executeQuery(String.format("SELECT (id, email, user_type) FROM \"Users\" WHERE \"Users.email\"=%s", email));
+			ResultSet result = stat.executeQuery(String.format("SELECT id, email, user_type FROM Users WHERE Users.email='%s';", email));
 			if (!result.next()) {
 				conn.close();
 				return null;
@@ -181,17 +182,17 @@ public class UserRepositoryImpl implements UserRepository {
 
 			conn.close();
 		} catch (SQLException e) {
+			if (e instanceof SQLIntegrityConstraintViolationException) {
+				// TODO : primary key 중복일때 에러 대신 로그 찍기
+			}
+			// TODO : 에러 대신 로그 찍기
+			throw new RuntimeException(e);
+		} finally {
 			try {
 				conn.close();
 			} catch (SQLException ex) {
 				throw new RuntimeException(ex);
 			}
-			if (e instanceof SQLIntegrityConstraintViolationException) {
-				// TODO : primary key 중복일때 에러 대신 로그 찍기
-				//
-			}
-			// TODO : 에러 대신 로그 찍기
-			throw new RuntimeException(e);
 		}
 
 		return id;
@@ -205,7 +206,23 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public boolean deleteUser(String id) {
-		// TODO : 구현
-		return false;
+		SQLConnection mySQLConnection = sqlManager.newConnection();
+		Connection conn = mySQLConnection.conn();
+		Statement stat = mySQLConnection.stat();
+		try {
+			int count = stat.executeUpdate(String.format("DELETE FROM Users WHERE Users.id='%s';", id));
+			if (count > 0) {
+				return true;
+			}
+			return false;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException ex) {
+				throw new RuntimeException(ex);
+			}
+		}
 	}
 }

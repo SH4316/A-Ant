@@ -1,11 +1,15 @@
 package com.sh4316.aant.service;
 
-import com.sh4316.aant.vo.PostDTO;
+import com.sh4316.aant.vo.PostVO;
 import com.sh4316.aant.vo.dto.CommentDTO;
 import com.sh4316.aant.repository.PostRepository;
 import com.sh4316.aant.vo.dto.PublicPostDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
@@ -16,9 +20,16 @@ public class PostService {
 		this.repo = repo;
 	}
 
-	public boolean createPost(String authorId, String title, String article) {
+	/**
+	 *
+	 * @param authorId
+	 * @param title
+	 * @param article
+	 * @return Return -1 if post isn't created, and return the post id.
+	 */
+	public String createPost(String authorId, String title, String article) {
 		// TODO : article id(int) 리턴하게 만들기
-		return repo.createPost(new PostDTO(-1, authorId, title, article, new CommentDTO[0]));
+		return repo.createPost(new PostVO(null, authorId, title, article, false, new CommentDTO[0]));
 	}
 
 	/**
@@ -27,8 +38,7 @@ public class PostService {
 	 * @param body Body of the post
 	 * @return Return false if there is no post match with 'postId'
 	 */
-	public boolean updatePost(int postId, String title, String body) {
-		// TODO : 구현
+	public boolean updatePost(String postId, String title, String body) {
 		return repo.updatePost(postId, title, body);
 	}
 
@@ -36,8 +46,12 @@ public class PostService {
 	 * @param id article id
 	 * @return
 	 */
-	public PostDTO getPost(int id) {
-		return repo.getPost(id);
+	public Optional<PostVO> getPost(String id) {
+		return Optional.ofNullable(repo.getPost(id));
+	}
+	public List<PostVO> getPosts(String userId) {
+		// TODO : repo에서 권한 있는 파일만 가져올 수 있는 구현 후 수정하기
+		return repo.getPosts(userId);
 	}
 
 	public PublicPostDTO getPublicPost(int id) {
@@ -45,4 +59,11 @@ public class PostService {
 		return null;
 	}
 
+//	public List<CommentDTO> getComments(String postId) {
+//
+//	}
+//
+//	public List<CommentDTO> getComments(String postId, int length) {
+//
+//	}
 }

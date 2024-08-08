@@ -7,17 +7,22 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
+
+	@Value("sh4316.domain")
+	private String domain = "error.com";
+
 	private UserService userService;
 
 	public UserController(@Autowired UserService userService) {
@@ -52,9 +57,22 @@ public class UserController {
 						.body("Fail to login");
 			}
 
-			String jwt = userService.createJWT(email);
 
-			res.addCookie(new Cookie("JWT", jwt));
+			String jwt = userService.createJWT(email);
+			ResponseCookie jwtCookie = ResponseCookie.from("JWT", jwt)
+					.maxAge(60*30)
+					.path("/")
+					.sameSite("None")
+					.secure(true)
+					.build();
+//			jwtCookie.setMaxAge(60*30);
+//			jwtCookie.setDomain(domain);
+//			jwtCookie.setHttpOnly(true);
+//			jwtCookie.setSecure(true);
+//			jwtCookie.setAttribute("SameSite", "None");
+
+//			res.addCookie(jwtCookie);
+			res.addHeader("Set-Cookie", jwtCookie.toString());
 			return ResponseEntity.status(HttpStatus.CREATED.value())
 //					.header("Cookie", "JWT=" + jwt)
 					.contentType(MediaType.TEXT_PLAIN)
@@ -107,5 +125,12 @@ public class UserController {
 		/*
 		curl --request POST --header 'Content-Type: application/json;' --data '{"email":"abc@gmail.com","pw":"abc"}' --verbose localhost:8080/api/v1/user/register
 		 */
+	}
+
+	@DeleteMapping("/delete")
+	public void delete(HttpServletRequest req) {
+		// TODO : 정상적인 요청인지 확인하기
+
+
 	}
 }

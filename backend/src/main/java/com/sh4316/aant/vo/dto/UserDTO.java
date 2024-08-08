@@ -1,4 +1,4 @@
-package com.sh4316.aant.vo;
+package com.sh4316.aant.vo.dto;
 
 import lombok.Getter;
 

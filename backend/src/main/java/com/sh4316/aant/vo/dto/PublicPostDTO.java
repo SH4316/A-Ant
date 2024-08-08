@@ -6,12 +6,12 @@ import org.json.JSONObject;
 import org.json.JSONString;
 
 public class PublicPostDTO implements JSONString {
-	@Getter private final int id;
+	@Getter private final String id;
 	@Getter private final String title;
 	@Getter private final String body;
 	@Getter private final CommentDTO[] comments;
 
-	public PublicPostDTO(int id, String title, String body, CommentDTO[] comments) {
+	public PublicPostDTO(String id, String title, String body, CommentDTO[] comments) {
 		this.id = id;
 		this.title = title;
 		this.body = body;

@@ -13,10 +13,10 @@ public class Encoding {
 	public static String encoding(String str) {
 		return Base64.getEncoder().encodeToString(Hashing.sha256().hashString(str, StandardCharsets.UTF_8).asBytes());
 	}
-	public static String encodingBase64(String str) {
+	public static String encodeBase64(String str) {
 		return Base64.getEncoder().encodeToString(str.getBytes());
 	}
-	public static String decodingBase64(String str) {
+	public static String decodeBase64(String str) {
 		return new String(Base64.getDecoder().decode(str), StandardCharsets.UTF_8);
 	}
 }

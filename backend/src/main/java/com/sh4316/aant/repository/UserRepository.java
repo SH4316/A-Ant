@@ -1,6 +1,6 @@
 package com.sh4316.aant.repository;
 
-import com.sh4316.aant.vo.UserDTO;
+import com.sh4316.aant.vo.dto.UserDTO;
 import org.springframework.stereotype.Repository;
 
 @Repository

@@ -1,8 +1,6 @@
 package com.sh4316.aant.utils;
 
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 @Deprecated
 public class JWT {
@@ -34,8 +32,8 @@ public class JWT {
 	}
 
 	public String build() {
-		String header = Encoding.encodingBase64(this.header.toString());
-		String payload = Encoding.encodingBase64(this.payload.toString());
+		String header = Encoding.encodeBase64(this.header.toString());
+		String payload = Encoding.encodeBase64(this.payload.toString());
 		// TODO : 암호화 알고리즘 다른 것도 사용할 수 있도록 하기
 		// TODO : 생성된 jwt가 안전한지 확인
 		return header + "."
