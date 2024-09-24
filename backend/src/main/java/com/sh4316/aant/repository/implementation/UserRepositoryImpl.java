@@ -1,5 +1,6 @@
-package com.sh4316.aant.repository;
+package com.sh4316.aant.repository.implementation;
 
+import com.sh4316.aant.repository.UserRepository;
 import com.sh4316.aant.vo.dto.UserDTO;
 import com.sh4316.aant.repository.database.SQLConnection;
 import com.sh4316.aant.repository.database.SQLManager;
@@ -29,6 +30,11 @@ public class UserRepositoryImpl implements UserRepository {
 		Statement stat = sqlConnection.stat();
 		try {
 			stat.execute("USE aant");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS UserType (" +
+					"id INT AUTO_INCREMENT PRIMARY KEY," +
+					"name VARCHAR(45) NOT NULL" +
+					");");
+			stat.executeUpdate("INSERT INTO UserType (id, name) VALUES (1, admin), (2, user);");
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS Users (" +
 					"id VARCHAR(45) PRIMARY KEY," +
 					"email VARCHAR(256) NOT NULL," +
@@ -36,10 +42,6 @@ public class UserRepositoryImpl implements UserRepository {
 					"user_type INT NOT NULL," +
 					"FOREIGN KEY (user_type) REFERENCES UserType (id));");
 
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS UserType (" +
-					"id INT AUTO_INCREMENT PRIMARY KEY," +
-					"name VARCHAR(45) NOT NULL" +
-					");");
 			// TODO : UserType 테이블 생성시 기본 UserType 값 추가
 //			stat.executeUpdate("INSERT INTO User")
 

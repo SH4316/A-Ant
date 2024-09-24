@@ -123,7 +123,7 @@ public class UserController {
 				.body("Success to create account.");
 
 		/*
-		curl --request POST --header 'Content-Type: application/json;' --data '{"email":"abc@gmail.com","pw":"abc"}' --verbose localhost:8080/api/v1/user/register
+		curl --request POST --header 'Content-Type: application/json;' --data '{"email":"abc@gmail.com","pw":"123"}' --verbose localhost:8080/api/v1/user/register
 		 */
 	}
 

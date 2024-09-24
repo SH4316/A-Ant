@@ -38,3 +38,4 @@ out/
 
 ### Spring Boot ###
 !**/src/resources/application.properties
+

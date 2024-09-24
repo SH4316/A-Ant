@@ -21,7 +21,7 @@ public interface UserRepository {
 	public String registerUser(String email, String password, int userType);
 
 	/**
-	 * @return Return false if there not exist account.
+	 * @return Return f	alse if there not exist account.
 	 */
 	public boolean changePassword(String id, String password);
 

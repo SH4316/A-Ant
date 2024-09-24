@@ -1,9 +1,9 @@
 package com.sh4316.aant.config;
 
 import com.sh4316.aant.repository.PostRepository;
-import com.sh4316.aant.repository.PostRepositoryImpl;
+import com.sh4316.aant.repository.implementation.PostRepositoryImpl;
 import com.sh4316.aant.repository.UserRepository;
-import com.sh4316.aant.repository.UserRepositoryImpl;
+import com.sh4316.aant.repository.implementation.UserRepositoryImpl;
 import com.sh4316.aant.repository.database.MySQLManager;
 import com.sh4316.aant.repository.database.SQLManager;
 import com.sh4316.aant.service.PostService;
@@ -16,8 +16,20 @@ public class Config {
 	private SQLManager sqlManager = new MySQLManager();
 
 	@Bean
-	public SQLManager mySQLManager() {
+	public SQLManager sqlManager() {
 		return sqlManager;
+	}
+
+	private UserRepository userRepository = new UserRepositoryImpl(sqlManager);
+	private UserService userService = new UserService(userRepository);
+
+	@Bean
+	public UserRepository userRepository() {
+		return userRepository;
+	}
+	@Bean
+	public UserService userService() {
+		return userService;
 	}
 
 	private PostRepository postRepository = new PostRepositoryImpl(sqlManager);
@@ -32,16 +44,4 @@ public class Config {
 		return postService;
 	}
 
-
-	private UserRepository userRepository = new UserRepositoryImpl(sqlManager);
-	private UserService userService = new UserService(userRepository);
-
-	@Bean
-	public UserRepository userRepository() {
-		return userRepository;
-	}
-	@Bean
-	public UserService userService() {
-		return userService;
-	}
 }

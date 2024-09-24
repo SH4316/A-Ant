@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-//@Component
+@Component
 public class MySQLManager implements SQLManager {
 
 //	private static MySQLManager instance = null;
@@ -30,6 +30,27 @@ public class MySQLManager implements SQLManager {
 	private String username;
 	@Value("${spring.datasource.password}")
 	private String password;
+
+	@PostConstruct
+	public void printInfo() {
+		System.out.println("DB Driver : " + databaseDriver);
+		System.out.println("URL : " + url);
+		System.out.println("USER : " + username);
+
+		SQLConnection connection = null;
+		try {
+			connection = newConnection();
+			connection.stat().execute("CREATE DATABASE IF NOT EXISTS aant;");
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			try {
+				connection.conn().close();
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+		}
+	}
 
 
 	// TODO : Connection Pool 제작

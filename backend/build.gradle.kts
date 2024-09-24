@@ -24,16 +24,21 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	compileOnly("org.projectlombok:lombok")
-	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	testImplementation("org.springframework:spring-test:6.1.11")
+//	testImplementation("org.json:json:20240303")
+
+	implementation("org.springframework.boot:spring-boot-starter-web")
+
+
+	compileOnly("org.projectlombok:lombok")
+	annotationProcessor("org.projectlombok:lombok")
 	implementation("mysql:mysql-connector-java:8.0.33")
 	implementation("org.json:json:20240303")
 	implementation("com.google.guava:guava:32.1.3-jre")
 	implementation("com.auth0:java-jwt:4.4.0")
-//	implementation("com.zaxxer:HikariCP:5.1.0")
+	implementation("com.zaxxer:HikariCP:5.1.0")
 }
 
 tasks.withType<Test> {

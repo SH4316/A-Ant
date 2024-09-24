@@ -1,5 +1,6 @@
-package com.sh4316.aant.repository;
+package com.sh4316.aant.repository.implementation;
 
+import com.sh4316.aant.repository.PostRepository;
 import com.sh4316.aant.vo.PostVO;
 import com.sh4316.aant.vo.dto.CommentDTO;
 import com.sh4316.aant.repository.database.SQLConnection;
