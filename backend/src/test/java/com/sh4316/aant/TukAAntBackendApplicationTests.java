@@ -1,10 +1,10 @@
 package com.sh4316.aant;
 
-import com.sh4316.aant.controller.PostController;
-import com.sh4316.aant.controller.UserController;
-import com.sh4316.aant.service.UserService;
-import com.sh4316.aant.vo.DecodedJwtVO;
-import com.sh4316.aant.vo.dto.UserDTO;
+import com.sh4316.aant.post.controller.PostController;
+import com.sh4316.aant.post.controller.UserController;
+import com.sh4316.aant.post.service.UserService;
+import com.sh4316.aant.post.vo.DecodedJwtVO;
+import com.sh4316.aant.post.vo.dto.UserDTO;
 import jakarta.servlet.http.Cookie;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;

@@ -30,7 +30,8 @@ dependencies {
 //	testImplementation("org.json:json:20240303")
 
 	implementation("org.springframework.boot:spring-boot-starter-web")
-
+	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
